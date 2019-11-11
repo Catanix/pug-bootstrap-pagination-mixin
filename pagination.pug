@@ -1,0 +1,37 @@
+//- You can include mixin in your .pug file:
+//- include ./pagination.pug
+//- Use mixin in your template:
+//- +pagination(pages, current, link)
+//- Dont forget to pass your data (pages, link etc..)
+
+mixin pagination(pages, current, link)
+  if pages > 0
+    .d-flex.justify-content-center  
+      ul.pagination
+        if current == 1
+          li.page-item.disabled 
+            a.page-link First
+        else  
+          li.page-item
+            a.page-link(href=`/${link}/1`) First
+        -var i = (Number(current) > 5 ? Number(current) - 4 : 1);
+        if i !== 1
+          li.page-item.disabled 
+            a.page-link ... 
+        - for(; i <= (Number(current) + 4) && i <= pages; i++)
+          if i == current 
+            li.page-item.disabled 
+              a.page-link(href=`/${link}/${i}`)=i
+          else  
+            li.page-item
+              a.page-link(href=`/${link}/${i}`)=i
+          if (i == Number(current) + 4 && i < pages) 
+            li.page-item.disabled 
+              a.page-link ...
+        if (current == pages) 
+          li.page-item.disabled 
+            a.page-link Last 
+        else
+          li.page-item 
+            a.page-link(href=`/${link}/${pages}`) Last
+            
